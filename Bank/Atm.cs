@@ -30,6 +30,42 @@ namespace Bank
             } while (AccountMap.ContainsKey(num));
             newAccount = new Account(num, description, intRate);
             c.AddAccount(newAccount);
+            AccountMap.Add(newAccount.AccountNumber, newAccount); //adds new account to account
+        }
+        public Client CreateClient(string name, string pin)
+        {
+            if(ClientMap.ContainsKey(name))
+            {
+                return null;    //don't allow duplicate client names
+            }
+            var c = new Client(name, pin);
+            CreateAccount(c, "Checking", 0); //create checking
+            CreateAccount(c, "Savings", 1.2);  //create savings
+            ClientMap.Add(name, c);
+            return c;
+        }
+        public bool Transfer(string from, string to, float amount)
+        {
+            var fromAccount = AccountMap[from]; //look up source account
+            Account toAccount;
+            if (AccountMap.ContainsKey(to)) //if client enters account# 
+            {
+                toAccount = AccountMap[to]; //look up account number in map
+            }
+            else if(ClientMap.ContainsKey(to))
+            {
+                toAccount = ClientMap[to].AccountList.Where(a => a.Value.Description == "Checking").FirstOrDefault().Value; //defaults to clients checking account if client name is passed in
+            }
+            else
+            {
+                return false; //cannot find account numer or client name
+            }
+            if (fromAccount.Withdraw(amount))
+            {
+                toAccount.Deposit(amount); //deposit successful
+                return true;
+            }
+            return false; //deposit not successful
         }
     }
 }
