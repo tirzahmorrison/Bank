@@ -5,7 +5,7 @@
         public string AccountNumber { get; set; } // public getter for account number to keep data private (error handling)
         public string Description { get; set; }
         public float Balance { get; set; } // public getter for balance to keep private (error handling)
-        public double InterestRate { get; set; } // public getter for interestrate (error handling)
+        public double InterestRate { get; set; } // public getter for interest rate (error handling)
 
         public Account(string actNum, string desc, double intRate)
         {

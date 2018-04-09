@@ -172,7 +172,7 @@ namespace Bank
                     continue;
                 }
 
-                Console.Write('*');
+                Console.Write('*');  //thanks Charley! lol
                 sb.Append(cki.KeyChar);
             }
 
