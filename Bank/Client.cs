@@ -1,26 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Security;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Bank
 {
     internal class Client
     {
-        private string name;
-        public string Name { get { return name; } }
+        public string Name { get; set; }
+        [JsonProperty]
         private string pin;
-        private Dictionary<string, Account> accountList = new Dictionary<string, Account>();
-        public Dictionary<string, Account> AccountList { get { return accountList; } }
+        public Dictionary<string, Account> AccountList { get; set; }
 
         public Client(string n, string p)
         {
-            name = n;
+            Name = n;
             pin = p;
+            AccountList = new Dictionary<string, Account>();
         }
         public void AddAccount(Account account)
         {
-            accountList.Add(account.AccountNumber, account); //adds new account to client
+            AccountList.Add(account.AccountNumber, account); //adds new account to client
         }
-        public bool LogIn(SecureString pin) //checks inputted pin to compare to client pin
+        public bool LogIn(string pin) //checks inputted pin to compare to client pin
         {
             if (pin.Equals(this.pin))
             {
